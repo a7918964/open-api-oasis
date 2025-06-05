@@ -7,7 +7,11 @@ import { Menu, Settings, LogOut } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 
-const Navigation = () => {
+interface NavigationProps {
+  onSearch?: (query: string) => void;
+}
+
+const Navigation = ({ onSearch }: NavigationProps) => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const { isAuthenticated, isAdmin, logout } = useAuth();
