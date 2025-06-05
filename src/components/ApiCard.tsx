@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ExternalLink, Code } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface ApiCardProps {
   api: {
@@ -77,23 +78,26 @@ const ApiCard = ({ api, onViewDetails }: ApiCardProps) => {
               {api.category}
             </Badge>
             <div className="flex space-x-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => onViewDetails?.(api.id)}
-                className="flex items-center space-x-1"
-              >
-                <Code size={14} />
-                <span>Details</span>
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="flex items-center space-x-1"
-              >
-                <ExternalLink size={14} />
-                <span>Try</span>
-              </Button>
+              <Link to={`/api/${api.id}`}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center space-x-1"
+                >
+                  <Code size={14} />
+                  <span>Details</span>
+                </Button>
+              </Link>
+              <Link to={`/try-api/${api.id}`}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center space-x-1"
+                >
+                  <ExternalLink size={14} />
+                  <span>Try</span>
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
