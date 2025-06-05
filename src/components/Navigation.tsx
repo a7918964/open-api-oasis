@@ -1,126 +1,112 @@
 
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, Menu, X, Settings, Home, List, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Menu, Settings, LogOut } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/hooks/use-toast';
 
-interface NavigationProps {
-  onSearch?: (query: string) => void;
-}
-
-const Navigation = ({ onSearch }: NavigationProps) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+const Navigation = () => {
   const location = useLocation();
+  const [isOpen, setIsOpen] = useState(false);
+  const { isAuthenticated, isAdmin, logout } = useAuth();
+  const { toast } = useToast();
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSearch?.(searchQuery);
+  const handleLogout = () => {
+    logout();
+    setIsOpen(false);
+    toast({
+      title: "Logged Out",
+      description: "You have been successfully logged out.",
+    });
   };
 
   const navItems = [
-    { path: '/', label: 'Home', icon: Home },
-    { path: '/apis', label: 'APIs', icon: List },
-    { path: '/announcements', label: 'Announcements', icon: MessageSquare },
-    { path: '/admin', label: 'Admin', icon: Settings },
+    { href: '/', label: 'Home' },
+    { href: '/apis', label: 'APIs' },
+    { href: '/announcements', label: 'Announcements' },
   ];
 
+  // Add admin link only if user is authenticated as admin
+  if (isAuthenticated && isAdmin) {
+    navItems.push({ href: '/admin', label: 'Admin' });
+  }
+
+  const NavLinks = ({ mobile = false }) => (
+    <>
+      {navItems.map((item) => (
+        <Link
+          key={item.href}
+          to={item.href}
+          className={`${
+            mobile ? 'block px-3 py-2 text-base' : 'text-sm'
+          } font-medium transition-colors hover:text-blue-600 ${
+            location.pathname === item.href
+              ? 'text-blue-600 border-b-2 border-blue-600'
+              : 'text-gray-700'
+          }`}
+          onClick={mobile ? () => setIsOpen(false) : undefined}
+        >
+          {item.href === '/admin' && (
+            <Settings className="inline-block w-4 h-4 mr-1" />
+          )}
+          {item.label}
+        </Link>
+      ))}
+      {isAuthenticated && isAdmin && mobile && (
+        <Button
+          variant="outline"
+          onClick={handleLogout}
+          className="mt-4 w-full flex items-center justify-center space-x-2"
+        >
+          <LogOut size={16} />
+          <span>Logout</span>
+        </Button>
+      )}
+    </>
+  );
+
   return (
-    <nav className="bg-white shadow-sm border-b sticky top-0 z-50">
+    <nav className="bg-white shadow-sm border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">API</span>
-              </div>
-              <span className="text-xl font-bold text-gray-900">OpenAPI Hub</span>
-            </Link>
-          </div>
+          <Link to="/" className="flex items-center space-x-2">
+            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-sm">API</span>
+            </div>
+            <span className="font-bold text-xl text-gray-900">OpenAPI Hub</span>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    location.pathname === item.path
-                      ? 'text-blue-600 bg-blue-50'
-                      : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
-                  }`}
-                >
-                  <Icon size={16} />
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
+            <NavLinks />
+            {isAuthenticated && isAdmin && (
+              <Button
+                variant="outline"
+                onClick={handleLogout}
+                className="flex items-center space-x-2"
+              >
+                <LogOut size={16} />
+                <span>Logout</span>
+              </Button>
+            )}
           </div>
 
-          {/* Search Bar */}
-          <form onSubmit={handleSearch} className="hidden md:flex items-center space-x-2">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
-              <Input
-                type="text"
-                placeholder="Search APIs, announcements..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 pr-4 py-2 w-64"
-              />
-            </div>
-          </form>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
-            </Button>
-          </div>
-        </div>
-
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden py-4 space-y-2">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  onClick={() => setIsMenuOpen(false)}
-                  className={`flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium transition-colors ${
-                    location.pathname === item.path
-                      ? 'text-blue-600 bg-blue-50'
-                      : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
-                  }`}
-                >
-                  <Icon size={16} />
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
-            <form onSubmit={handleSearch} className="pt-2">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
-                <Input
-                  type="text"
-                  placeholder="Search APIs, announcements..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 pr-4 py-2 w-full"
-                />
+          {/* Mobile Navigation */}
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <SheetTrigger asChild className="md:hidden">
+              <Button variant="ghost" size="sm">
+                <Menu className="h-5 w-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-64">
+              <div className="flex flex-col space-y-4 mt-8">
+                <NavLinks mobile />
               </div>
-            </form>
-          </div>
-        )}
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
     </nav>
   );

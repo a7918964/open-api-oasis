@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import Navigation from '@/components/Navigation';
 import { Button } from '@/components/ui/button';
@@ -8,11 +7,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Edit, Trash, Save } from 'lucide-react';
+import { Plus, Edit, Trash, Save, Shield } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Admin = () => {
   const { toast } = useToast();
+  const { logout } = useAuth();
   
   const [apis, setApis] = useState([
     {
@@ -159,12 +160,22 @@ const Admin = () => {
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Admin Panel
-          </h1>
-          <p className="text-xl text-gray-600">
-            Manage APIs and announcements for the OpenAPI Hub
-          </p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
+                <Shield className="h-8 w-8 text-blue-600" />
+                <span>Admin Panel</span>
+              </h1>
+              <p className="text-xl text-gray-600">
+                Manage APIs and announcements for the OpenAPI Hub
+              </p>
+            </div>
+            <div className="hidden md:block">
+              <Badge variant="secondary" className="bg-green-100 text-green-800">
+                Admin Access
+              </Badge>
+            </div>
+          </div>
         </div>
 
         <Tabs defaultValue="apis" className="space-y-6">
