@@ -4,7 +4,7 @@ import Navigation from '@/components/Navigation';
 import ApiCard from '@/components/ApiCard';
 import AnnouncementCard from '@/components/AnnouncementCard';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, TrendingUp, Users, Zap } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
@@ -95,37 +95,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
+      {/* Featured APIs - Now Second Section */}
       <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
-                <TrendingUp className="text-blue-600" size={32} />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">99.9%</h3>
-              <p className="text-gray-600">API Uptime</p>
-            </div>
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
-                <Users className="text-green-600" size={32} />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">10K+</h3>
-              <p className="text-gray-600">Active Developers</p>
-            </div>
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full mb-4">
-                <Zap className="text-purple-600" size={32} />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">1M+</h3>
-              <p className="text-gray-600">API Calls Daily</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Featured APIs */}
-      <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -153,20 +124,20 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Recent Announcements */}
-      <section className="py-16 bg-white">
+      {/* Announcements Brief - Now Third Section */}
+      <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Latest Announcements
+              Latest Updates
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Stay updated with the latest news, updates, and important notices
+              Stay informed about API updates, new features, and important announcements
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            {recentAnnouncements.map((announcement) => (
+            {recentAnnouncements.slice(0, 2).map((announcement) => (
               <AnnouncementCard key={announcement.id} announcement={announcement} />
             ))}
           </div>
