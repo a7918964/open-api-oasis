@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ExternalLink, Code } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ApiCardProps {
   api: {
@@ -19,6 +20,8 @@ interface ApiCardProps {
 }
 
 const ApiCard = ({ api, onViewDetails }: ApiCardProps) => {
+  const { t } = useLanguage();
+  
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'active':
@@ -58,7 +61,7 @@ const ApiCard = ({ api, onViewDetails }: ApiCardProps) => {
             </CardDescription>
           </div>
           <Badge className={getStatusColor(api.status)} variant="secondary">
-            {api.status}
+            {t(`api.status.${api.status}`)}
           </Badge>
         </div>
       </CardHeader>
@@ -85,7 +88,7 @@ const ApiCard = ({ api, onViewDetails }: ApiCardProps) => {
                   className="flex items-center space-x-1"
                 >
                   <Code size={14} />
-                  <span>Details</span>
+                  <span>{t('api.details')}</span>
                 </Button>
               </Link>
               <Link to={`/try-api/${api.id}`}>
@@ -95,7 +98,7 @@ const ApiCard = ({ api, onViewDetails }: ApiCardProps) => {
                   className="flex items-center space-x-1"
                 >
                   <ExternalLink size={14} />
-                  <span>Try</span>
+                  <span>{t('api.try')}</span>
                 </Button>
               </Link>
             </div>

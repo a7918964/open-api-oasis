@@ -6,8 +6,11 @@ import AnnouncementCard from '@/components/AnnouncementCard';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Home = () => {
+  const { t } = useLanguage();
+  
   const [featuredApis, setFeaturedApis] = useState([
     {
       id: '1',
@@ -71,23 +74,22 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in">
-              Powerful APIs for
-              <span className="block text-blue-200">Modern Applications</span>
+              {t('home.title')}
+              <span className="block text-blue-200">{t('home.subtitle')}</span>
             </h1>
             <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto">
-              Discover, integrate, and manage our comprehensive collection of Open APIs. 
-              Build amazing applications with reliable, well-documented endpoints.
+              {t('home.description')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/apis">
                 <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3">
-                  Explore APIs
+                  {t('home.exploreApis')}
                   <ArrowRight className="ml-2" size={20} />
                 </Button>
               </Link>
               <Link to="/announcements">
                 <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3">
-                  View Announcements
+                  {t('home.viewAnnouncements')}
                 </Button>
               </Link>
             </div>
@@ -100,10 +102,10 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Featured APIs
+              {t('home.featuredApis')}
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Explore our most popular and powerful APIs that developers love to use
+              {t('home.featuredApisDesc')}
             </p>
           </div>
           
@@ -116,7 +118,7 @@ const Home = () => {
           <div className="text-center">
             <Link to="/apis">
               <Button variant="outline" size="lg" className="px-8">
-                View All APIs
+                {t('home.viewAllApis')}
                 <ArrowRight className="ml-2" size={16} />
               </Button>
             </Link>
@@ -129,10 +131,10 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Latest Updates
+              {t('home.latestUpdates')}
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Stay informed about API updates, new features, and important announcements
+              {t('home.latestUpdatesDesc')}
             </p>
           </div>
           
@@ -145,7 +147,7 @@ const Home = () => {
           <div className="text-center">
             <Link to="/announcements">
               <Button variant="outline" size="lg" className="px-8">
-                View All Announcements
+                {t('home.viewAllAnnouncements')}
                 <ArrowRight className="ml-2" size={16} />
               </Button>
             </Link>
@@ -164,10 +166,10 @@ const Home = () => {
               <span className="text-xl font-bold">OpenAPI Hub</span>
             </div>
             <p className="text-gray-400 mb-4">
-              Empowering developers with powerful, reliable APIs
+              {t('home.footerDesc')}
             </p>
             <p className="text-sm text-gray-500">
-              © 2024 OpenAPI Hub. All rights reserved.
+              {t('home.copyright')}
             </p>
           </div>
         </div>

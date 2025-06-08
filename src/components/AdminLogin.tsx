@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Lock, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/hooks/use-toast';
 
 const AdminLogin = () => {
@@ -13,6 +14,7 @@ const AdminLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
+  const { t } = useLanguage();
   const { toast } = useToast();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -26,13 +28,13 @@ const AdminLogin = () => {
     
     if (success) {
       toast({
-        title: "Login Successful",
-        description: "Welcome to the admin panel!",
+        title: t('admin.loginSuccess'),
+        description: t('admin.loginSuccessDesc'),
       });
     } else {
       toast({
-        title: "Login Failed",
-        description: "Invalid username or password.",
+        title: t('admin.loginFailed'),
+        description: t('admin.loginFailedDesc'),
         variant: "destructive",
       });
     }
@@ -49,34 +51,34 @@ const AdminLogin = () => {
               <Lock className="h-8 w-8 text-blue-600" />
             </div>
           </div>
-          <CardTitle className="text-2xl font-bold">Admin Login</CardTitle>
+          <CardTitle className="text-2xl font-bold">{t('admin.title')}</CardTitle>
           <CardDescription>
-            Enter your credentials to access the admin panel
+            {t('admin.description')}
           </CardDescription>
           <div className="mt-4 p-3 bg-blue-50 rounded-lg text-sm text-blue-700">
-            <strong>Demo Credentials:</strong><br />
-            Username: admin<br />
-            Password: admin123
+            <strong>{t('admin.demoCredentials')}</strong><br />
+            {t('admin.username')}: admin<br />
+            {t('admin.password')}: admin123
           </div>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
-                Username
+                {t('admin.username')}
               </label>
               <Input
                 id="username"
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="Enter username"
+                placeholder={`${t('common.enter')} ${t('admin.username').toLowerCase()}`}
                 required
               />
             </div>
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                Password
+                {t('admin.password')}
               </label>
               <div className="relative">
                 <Input
@@ -84,7 +86,7 @@ const AdminLogin = () => {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter password"
+                  placeholder={`${t('common.enter')} ${t('admin.password').toLowerCase()}`}
                   required
                 />
                 <Button
@@ -107,7 +109,7 @@ const AdminLogin = () => {
               className="w-full"
               disabled={isLoading}
             >
-              {isLoading ? 'Signing in...' : 'Sign In'}
+              {isLoading ? t('admin.signingIn') : t('admin.signIn')}
             </Button>
           </form>
         </CardContent>

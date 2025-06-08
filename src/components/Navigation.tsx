@@ -5,7 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, Settings, LogOut } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/hooks/use-toast';
+import LanguageSwitcher from './LanguageSwitcher';
 
 interface NavigationProps {
   onSearch?: (query: string) => void;
@@ -15,26 +17,27 @@ const Navigation = ({ onSearch }: NavigationProps) => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const { isAuthenticated, isAdmin, logout } = useAuth();
+  const { t } = useLanguage();
   const { toast } = useToast();
 
   const handleLogout = () => {
     logout();
     setIsOpen(false);
     toast({
-      title: "Logged Out",
-      description: "You have been successfully logged out.",
+      title: t('admin.loggedOut'),
+      description: t('admin.loggedOutDesc'),
     });
   };
 
   const navItems = [
-    { href: '/', label: 'Home' },
-    { href: '/apis', label: 'APIs' },
-    { href: '/announcements', label: 'Announcements' },
+    { href: '/', label: t('nav.home') },
+    { href: '/apis', label: t('nav.apis') },
+    { href: '/announcements', label: t('nav.announcements') },
   ];
 
   // Add admin link only if user is authenticated as admin
   if (isAuthenticated && isAdmin) {
-    navItems.push({ href: '/admin', label: 'Admin' });
+    navItems.push({ href: '/admin', label: t('nav.admin') });
   }
 
   const NavLinks = ({ mobile = false }) => (
@@ -65,7 +68,7 @@ const Navigation = ({ onSearch }: NavigationProps) => {
           className="mt-4 w-full flex items-center justify-center space-x-2"
         >
           <LogOut size={16} />
-          <span>Logout</span>
+          <span>{t('nav.logout')}</span>
         </Button>
       )}
     </>
@@ -85,6 +88,7 @@ const Navigation = ({ onSearch }: NavigationProps) => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <NavLinks />
+            <LanguageSwitcher />
             {isAuthenticated && isAdmin && (
               <Button
                 variant="outline"
@@ -92,7 +96,7 @@ const Navigation = ({ onSearch }: NavigationProps) => {
                 className="flex items-center space-x-2"
               >
                 <LogOut size={16} />
-                <span>Logout</span>
+                <span>{t('nav.logout')}</span>
               </Button>
             )}
           </div>
@@ -107,6 +111,9 @@ const Navigation = ({ onSearch }: NavigationProps) => {
             <SheetContent side="right" className="w-64">
               <div className="flex flex-col space-y-4 mt-8">
                 <NavLinks mobile />
+                <div className="pt-4 border-t">
+                  <LanguageSwitcher />
+                </div>
               </div>
             </SheetContent>
           </Sheet>
