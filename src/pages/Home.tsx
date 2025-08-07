@@ -88,7 +88,7 @@ const Home = () => {
                 </Button>
               </Link>
               <Link to="/announcements">
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3">
+                <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3">
                   {t('home.viewAnnouncements')}
                 </Button>
               </Link>
