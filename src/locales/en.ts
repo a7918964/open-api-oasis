@@ -19,8 +19,8 @@ export default {
     latestUpdates: 'Latest Updates',
     latestUpdatesDesc: 'Stay informed about API updates, new features, and important announcements',
     viewAllAnnouncements: 'View All Announcements',
-    footerDesc: 'Empowering developers with powerful, reliable APIs',
-    copyright: '© 2024 OpenAPI Hub. All rights reserved.'
+    footerDesc: '',
+    copyright: 'Copyright © 2024 Shoalter Technology Limited. All Rights Reserved.'
   },
   api: {
     details: 'Details',

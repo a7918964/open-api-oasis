@@ -19,8 +19,8 @@ export default {
     latestUpdates: '最新更新',
     latestUpdatesDesc: '随时了解 API 更新、新功能和重要公告',
     viewAllAnnouncements: '查看所有公告',
-    footerDesc: '为开发者提供强大、可靠的 API',
-    copyright: '© 2024 OpenAPI Hub. 版权所有。'
+    footerDesc: '',
+    copyright: 'Copyright © 2024 Shoalter Technology Limited. All Rights Reserved.。'
   },
   api: {
     details: '详情',
